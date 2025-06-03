@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <form id="login-form" action="index.html" method="post" onsubmit="return formvalidation()">
+                <fieldset id="field">
+                    <legend>Login</legend> 
+                    <label>Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" style="margin-left:80px ;"><br><br>
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="Enter password" style="margin-left:45px ;"><br><br>
+                    <button type="submit">Login</button>
+                    <hr>
+                    <p>Don't have an account? <a href="signup.html">Signup</a></p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP6I2-jHI1-WrxaUBMOoIU2NV_01hpbn0",
+            authDomain: "lighten-dcc21.firebaseapp.com",
+            projectId: "lighten-dcc21",
+            storageBucket: "lighten-dcc21.appspot.com", // ✅ Fixed storageBucket
+            messagingSenderId: "1024187785433",
+            appId: "1:1024187785433:web:afb1d080f478492e3a1ec8",
+            measurementId: "G-3GQF1165PY"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // ✅ Fixed missing auth initialization
+
+        // Login Function
+        const loginForm = document.getElementById("login-form");
+        loginForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Login successful!");
+                    window.location.href = "index.html"; // Redirect to dashboard/home
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        });
+    </script>
+
+    <script>
+        function formvalidation(){
+            var name = document.getElementById("login-email").value;
+            var password = document.getElementById("login-password").value;
+
+            if(name == null || name == ""){
+                alert("Email can't be blank");
+                return false;
+            }
+            else if(password.length < 6){
+                alert("Password must contain at least 6 characters");
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

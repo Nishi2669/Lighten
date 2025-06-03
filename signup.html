@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+    <form id="signup-form">
+        <fieldset id="field">
+        <legend>Create Your Account</legend> 
+        <label>Name</label>
+        <input type="name" id="name" placeholder="Enter your first name" required style="margin-left:158px ;"><br><br>
+        <label>Password</label>
+        <input type="password" id="pass" placeholder="Enter password" required style="margin-left:125px ;"><br><br>
+        <label>Confirm Password</label>
+        <input type="password" id="confirm-password" placeholder="Enter password" required style="margin-left:45px ;"><br><br>
+        <label>E-mail</label>
+        <input type="email" id="signup-email" placeholder="Enter your email" required style="margin-left:150px ;"><br><br>
+        <label>Phone No: </label>
+        <input type="number" placeholder="number(optional)" style="margin-left:110px ;"><br><br>
+        <button>Signup</button>
+        <button id="refresh-button">Refresh</button>
+        <hr>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+        </fieldset>
+    </form>
+    </div>
+    </div>
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-analytics.js";
+    
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP6I2-jHI1-WrxaUBMOoIU2NV_01hpbn0",
+            authDomain: "lighten-dcc21.firebaseapp.com",
+            projectId: "lighten-dcc21",
+            storageBucket: "lighten-dcc21.appspot.com",
+            messagingSenderId: "1024187785433",
+            appId: "1:1024187785433:web:afb1d080f478492e3a1ec8",
+            measurementId: "G-3GQF1165PY"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const analytics = getAnalytics(app);
+    
+        // Sign Up Function
+        const signupForm = document.getElementById("signup-form");
+        signupForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("pass").value;
+            const name = document.getElementById("name").value;
+    
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Sign-up successful!");
+                    window.location.href = "login.html"; // Redirect to login page
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        });
+    </script>
+    
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+  const password = document.getElementById("pass").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
+
+  if (password !== confirmPassword) {
+    event.preventDefault(); // Prevent form submission
+    alert("Passwords do not match. Please try again.");
+  }
+});
+document.getElementById("refresh-button").addEventListener("click", function() {
+  location.reload(); // Reloads the current page
+});
+
+    </script>
+</body>
+</html>
